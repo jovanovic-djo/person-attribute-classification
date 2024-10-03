@@ -7,9 +7,12 @@ from keras.models import load_model
 import cv2
 import numpy as np
 
-model = load_model('../models/combined_model.h5')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, '../models/combined_model.h5')
 
-cap = cv2.VideoCapture(0)  # 0 means the default webcam
+model = load_model(model_path)
+
+cap = cv2.VideoCapture(0)
 
 while True:
     ret, frame = cap.read()
