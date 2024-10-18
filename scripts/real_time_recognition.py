@@ -21,7 +21,7 @@ while True:
     faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
 
     for (x, y, w, h) in faces:
-        face = gray_frame[y:y+h, x:x+w]
+        face = gray_frame[y : y + h, x : x + w]
 
         face_resized = cv2.resize(face, (48, 48))
 
@@ -45,17 +45,15 @@ while True:
                 ethnicity = "Other"
         age = age_pred[0][0]//1000000 + 6
 
-        # Draw rectangle around the face and put labels
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-        cv2.putText(frame, f"Gender: {gender}", (x, y-50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        cv2.putText(frame, f"Ethnicity: {ethnicity}", (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        cv2.putText(frame, f"Age: {int(age)}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        cv2.putText(frame, f"Gender: {gender}", (x, y - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.putText(frame, f"Ethnicity: {ethnicity}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.putText(frame, f"Age: {int(age)}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
     cv2.imshow('Facial Attribute Recognition', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release video capture and close windows
 cap.release()
 cv2.destroyAllWindows()
