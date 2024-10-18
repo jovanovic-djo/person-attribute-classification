@@ -5,7 +5,6 @@ from tensorflow.keras.models import load_model
 
 model = load_model("models\combined_model.h5")
 
-
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 cap = cv2.VideoCapture(0)

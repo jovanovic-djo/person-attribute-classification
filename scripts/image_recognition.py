@@ -52,10 +52,8 @@ def predict_attributes(image_path):
         cv2.putText(img, f"Ethnicity: {ethnicity}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         cv2.putText(img, f"Age: {int(age)}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
     
-    # Display the result
     cv2.imshow('Facial Attribute Recognition', img)
     
-    # Wait for a key press and then close the image window
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
