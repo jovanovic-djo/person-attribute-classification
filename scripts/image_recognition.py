@@ -3,12 +3,18 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 model = load_model("models\combined_model.h5")
-image_path = 'imgs\oneal.jpg'
+image_path = 'imgs\davis.jpg'
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+text_font = cv2.FONT_HERSHEY_SIMPLEX
+text_fontScale = 0.8
+text_color = (0, 0, 255)
+text_thickness = 1
+
 def predict_attributes(image_path):
     img = cv2.imread(image_path)
+    img = cv2.resize(img, (512, 512))
     
     if img is None:
         print(f"Error: Image at {image_path} could not be loaded.")
@@ -47,12 +53,11 @@ def predict_attributes(image_path):
                 ethnicity = "Other"
         age = age_pred[0][0]//1000000 + 6
         
-        cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-        cv2.putText(img, f"Gender: {gender}", (x, y - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        cv2.putText(img, f"Ethnicity: {ethnicity}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        cv2.putText(img, f"Age: {int(age)}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.putText(img, f"Gender: {gender}", (x, y - 50), text_font, text_fontScale, text_color, text_thickness)
+        cv2.putText(img, f"Ethnicity: {ethnicity}", (x, y - 30), text_font, text_fontScale, text_color, text_thickness)
+        cv2.putText(img, f"Age: {int(age)}", (x, y - 10), text_font, text_fontScale, text_color, text_thickness)
     
-    cv2.imshow('Facial Attribute Recognition', img)
+    cv2.imshow('Facial Attribute Recognition', cv2.resize(img, (512, 512)))
     
     cv2.waitKey(0)
     cv2.destroyAllWindows()
