@@ -31,7 +31,7 @@ while True:
         gender_pred, ethnicity_pred, age_pred = model.predict(face_input)
 
         gender = "Male" if gender_pred[0][0] < 0.5 else "Female"
-        match np.argmax(ethnicity_pred[0]) - 1:
+        match np.argmax(ethnicity_pred[0]):
             case 0:
                 ethnicity = "White"
             case 1:
@@ -42,7 +42,7 @@ while True:
                 ethnicity = "Indian"
             case 4:
                 ethnicity = "Other"
-        age = age_pred[0][0]//1000000 + 6
+        age = age_pred[0][0]
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         cv2.putText(frame, f"Gender: {gender}", (x, y - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
