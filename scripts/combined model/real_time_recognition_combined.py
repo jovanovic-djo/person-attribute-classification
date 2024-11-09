@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
+from keras import models
 
 
-model = load_model("models\combined_model.h5")
+model = models.load_model("models\combined_model.h5")
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
