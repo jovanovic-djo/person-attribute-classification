@@ -1,3 +1,7 @@
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
+
 import cv2
 import numpy as np
 from keras import models
@@ -22,13 +26,16 @@ def predict_attributes(frame):
         face = gray_frame[y:y + h, x:x + w]
         
         face_resized = cv2.resize(face, (48, 48))
+        
         face_normalized = face_resized / 255.0
+        
         face_input = np.expand_dims(face_normalized, axis=(0, -1))
         
         gender_pred = gender_model.predict(face_input)
-        gender = "Male" if gender_pred[0][0] < 0.5 else "Female"
-        
         ethnicity_pred = ethnicity_model.predict(face_input)
+        age_pred = age_model.predict(face_input)
+        
+        gender = "Male" if gender_pred[0][0] < 0.5 else "Female"
         ethnicity_index = np.argmax(ethnicity_pred[0])
         ethnicity = {
             0: "White",
@@ -37,8 +44,6 @@ def predict_attributes(frame):
             3: "Indian",
             4: "Other"
         }.get(ethnicity_index, "Unknown")
-        
-        age_pred = age_model.predict(face_input)
         age = int(age_pred[0][0])
         
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)       
@@ -47,6 +52,7 @@ def predict_attributes(frame):
         cv2.putText(frame, f"Age: {age}", (x, y - 10), text_font, text_fontScale, text_color, text_thickness)
     
     return frame
+
 
 cap = cv2.VideoCapture(0)
 
